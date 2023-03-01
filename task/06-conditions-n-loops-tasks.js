@@ -366,7 +366,7 @@ function isBracketsBalanced(str) {
             stack.push(']');
         } else if (it === '<') {
             stack.push('>');
-        }else {
+        } else {
             if (stack.length > 0 && stack[stack.length - 1] === it) {
                 stack.pop();
             } else {
@@ -410,15 +410,43 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-    // let sec=Math.abs(y-x)/1000;
-    // if(sec>=0 && sec<45){
-    //     return 'a few seconds ago';
-    // }else if(sec>=45 && sec<90){
-    //     return 'a minute ago';
-    // }else if(sec>=90 && sec<)
+    let sec = Math.abs(endDate - startDate) / 1000;
+    console.log(sec, " sec");
+    if (sec >= 0 && sec <= 45) {
+        return 'a few seconds ago';
+    } else if (sec >= 45 && sec <= 90) {
+        return 'a minute ago';
+    } else if (sec >= 90 && sec <= 45 * 60) {
+        sec = sec / 60;
+        console.log(sec, " sec in f");
+        return `${Math.floor(Math.ceil(sec / 0.5) * 0.5)} minutes ago`;
+    } else if (sec >= 45 * 60 && sec <= 90 * 60) {
+        return 'an hour ago';
+    } else if (sec >= 90 * 60 && sec < 22 * 60 * 60) {
+        sec = sec / 60;
+        return `${Math.floor(Math.ceil(sec / 0.5) * 0.5)} hours ago`;
+    } else if (sec >= 22 * 60 * 60 && sec < 36 * 60 * 60) {
+        return 'a day ago';
+    } else if (sec >= 36 * 60 * 60 && sec < 25 * 24 * 60 * 60) {
+        return '2 days ago ... 25 days ago';
+    } else if (sec >= 25 * 24 * 60 * 60 && sec < 45 * 24 * 60 * 60) {
+        return 'a month ago';
+    } else if (sec >= 45 * 24 * 60 * 60 && sec < 345 * 24 * 60 * 60) {
+        return '2 months ago ... 11 months ago';
+    } else if (sec >= 345 * 24 * 60 * 60 && sec < 545 * 24 * 60 * 60) {
+        return 'a year ago';
+    } else if (sec >= 545 * 24 * 60 * 60) {
+        return '2 years ago ... 20 years ago';
+    }
     throw new Error('Not implemented');
 }
-
+//  22 to 36 hours              |  a day ago
+//  *  36 hours to 25 days         |  
+//  *  25 to 45 days               |  
+//  *  45 to 345 days              |  
+//  *  345 to 545 days (1.5 years) |  
+//  *  546 days+                   |  
+//  * -------------------------------------------------------------
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of specified number.
