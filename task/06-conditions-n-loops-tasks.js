@@ -139,7 +139,12 @@ function isTriangle(a, b, c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+    let x1 = rect1.top, y1 = rect1.left;
+    let x2 = x1 + rect1.width, y2 = y1 + rect1.height; //bottom right of the rectangle
+
+    let x3 = rect2.top, y3 = rect2.left;
+    let x4 = x3 + rect2.width, y4 = y3 + rect2.height; //bottom right of the rectangle
+    return x1 < x4 && x3 < x2 && y1 < y4 && y3 < y2;
 }
 
 
@@ -234,7 +239,16 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    throw new Error('Not implemented');
+    let lower = Math.min(a, b), higher = Math.max(a, b);
+    if (isStartIncluded && isEndIncluded) {
+        return `[${lower}, ${higher}]`;
+    } else if (!isStartIncluded && isEndIncluded) {
+        return `(${lower}, ${higher}]`;
+    } else if (isStartIncluded && !isEndIncluded) {
+        return `[${lower}, ${higher})`;
+    } else if (!isStartIncluded && !isEndIncluded) {
+        return `(${lower}, ${higher})`;
+    }
 }
 
 
@@ -300,7 +314,20 @@ function reverseInteger(num) {
  *   4916123456789012 => false
  */
 function isCreditCardNumber(ccn) {
-    throw new Error('Not implemented');
+    ccn = String(ccn);
+    ccn = ccn.split('').reverse();
+    ccn = ccn.map(x => Number(x));
+    for (let i = 1; i < ccn.length; i += 2) {
+        ccn[i] *= 2;
+        if (ccn[i] > 9) {
+            ccn[i] -= 9;
+        }
+    }
+    let sm = 0;
+    for (let i of ccn) {
+        sm += i;
+    }
+    return sm % 10 === 0;
 }
 
 
@@ -407,38 +434,40 @@ function isBracketsBalanced(str) {
  *   Date('2000-01-01 01:00:00.100'), Date('2000-01-01 01:00:05.000')  => '5 minutes ago'
  *   Date('2000-01-01 01:00:00.100'), Date('2000-01-02 03:00:05.000')  => 'a day ago'
  *   Date('2000-01-01 01:00:00.100'), Date('2015-01-02 03:00:05.000')  => '15 years ago'
- *
- */
+*
+*/
 function timespanToHumanString(startDate, endDate) {
-    let sec = Math.abs(endDate - startDate) / 1000;
-    console.log(sec, " sec");
-    if (sec >= 0 && sec <= 45) {
-        return 'a few seconds ago';
-    } else if (sec >= 45 && sec <= 90) {
-        return 'a minute ago';
-    } else if (sec >= 90 && sec <= 45 * 60) {
-        sec = sec / 60;
-        console.log(sec, " sec in f");
-        return `${Math.floor(Math.ceil(sec / 0.5) * 0.5)} minutes ago`;
-    } else if (sec >= 45 * 60 && sec <= 90 * 60) {
-        return 'an hour ago';
-    } else if (sec >= 90 * 60 && sec < 22 * 60 * 60) {
-        sec = sec / 60;
-        return `${Math.floor(Math.ceil(sec / 0.5) * 0.5)} hours ago`;
-    } else if (sec >= 22 * 60 * 60 && sec < 36 * 60 * 60) {
-        return 'a day ago';
-    } else if (sec >= 36 * 60 * 60 && sec < 25 * 24 * 60 * 60) {
-        return '2 days ago ... 25 days ago';
-    } else if (sec >= 25 * 24 * 60 * 60 && sec < 45 * 24 * 60 * 60) {
-        return 'a month ago';
-    } else if (sec >= 45 * 24 * 60 * 60 && sec < 345 * 24 * 60 * 60) {
-        return '2 months ago ... 11 months ago';
-    } else if (sec >= 345 * 24 * 60 * 60 && sec < 545 * 24 * 60 * 60) {
-        return 'a year ago';
-    } else if (sec >= 545 * 24 * 60 * 60) {
-        return '2 years ago ... 20 years ago';
-    }
     throw new Error('Not implemented');
+    const diffInSeconds = Math.floor((endDate - startDate) / 1000);
+
+    if (diffInSeconds < 45) {
+        return 'a few seconds ago';
+    } else if (diffInSeconds <= 90) {
+        return 'a minute ago';
+    } else if (diffInSeconds <= 45 * 60) {
+        const diffInMinutes = Math.round(diffInSeconds / 60);
+        return `${diffInMinutes} minutes ago`;
+    } else if (diffInSeconds <= 90 * 60) {
+        return 'an hour ago';
+    } else if (diffInSeconds <= 22 * 60 * 60) {
+        const diffInHours = Math.round(diffInSeconds / (60 * 60));
+        return `${diffInHours} hours ago`;
+    } else if (diffInSeconds <= 36 * 60 * 60) {
+        return 'a day ago';
+    } else if (diffInSeconds <= 25 * 24 * 60 * 60) {
+        const diffInDays = Math.round(diffInSeconds / (24 * 60 * 60));
+        return `${diffInDays} days ago`;
+    } else if (diffInSeconds <= 45 * 24 * 60 * 60) {
+        return 'a month ago';
+    } else if (diffInSeconds <= 345 * 24 * 60 * 60) {
+        const diffInMonths = Math.round(diffInSeconds / (30 * 24 * 60 * 60));
+        return `${diffInMonths} months ago`;
+    } else if (diffInSeconds <= 545 * 24 * 60 * 60) {
+        return 'a year ago';
+    } else {
+        const diffInYears = Math.round(diffInSeconds / (365 * 24 * 60 * 60));
+        return `${diffInYears} years ago`;
+    }
 }
 //  22 to 36 hours              |  a day ago
 //  *  36 hours to 25 days         |  
@@ -485,7 +514,46 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+    let arr = pathes.map(x => {
+        x.trim()
+        return x.split('/');
+    });
+    let res = [];
+    for (let i = 0; i < arr[0].length; i++) {
+        let cmp = arr[0][i], cnt = 0;
+        if (cmp === '') {
+            continue;
+        }
+        for (let j = 1; j < arr.length; j++) {
+            if (cmp === arr[j][i]) {
+                cnt++;
+            } else {
+                cnt = -1;
+                break;
+            }
+        }
+        if (cnt === -1) {
+            break;
+        }
+        if (cnt === arr.length - 1) {
+            res.push(cmp);
+        }
+    }
+    if (res.length === 0) {
+        let cnt = 0;
+        for (let it of pathes) {
+            if (it[0] === '/') cnt++;
+        }
+        if (cnt === pathes.length) {
+            return '/';
+        }
+        else {
+            return '';
+        }
+    }
+    else {
+        return ('/' + res.join('/') + '/');
+    }
 }
 
 
@@ -507,8 +575,22 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+function getMatrixProduct(mat1, mat2) {
+    let m1 = mat1.length, m2 = mat1[0].length;
+    let n1 = mat2.length, n2 = mat2[0].length;
+    let res = new Array();
+    for (let i = 0; i < m1; i++) {
+        res.push(new Array(n2).fill(0));
+    }
+    for (let i = 0; i < m1; i++) {
+        for (let j = 0; j < n2; j++) {
+            for (let k = 0; k < m2; k++) {
+                res[i][j] += mat1[i][k] * mat2[k][j];
+            }
+        }
+    }
+    return res;
+
 }
 
 
@@ -543,7 +625,62 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    // check rows
+    let x = 0, y = 0;
+    let n = 3;
+
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < n; j++) {
+            if (position[i][j] === 'X') {
+                x++;
+            } else if (position[i][j] === '0') {
+                y++;
+            }
+        }
+        // console.log('x y ',x,y)
+        if (x === 3) return 'X';
+        if (y === 3) return '0';
+        x = 0; y = 0;
+    }
+    // check columns
+    x = 0; y = 0;
+    for (let j = 0; j < n; j++) {
+        for (let i = 0; i < n; i++) {
+            if (position[i][j] === 'X') {
+                x++;
+            } else if (position[i][j] === '0') {
+                y++;
+            }
+        }
+        if (x === 3) return 'X';
+        if (y === 3) return '0';
+        x = 0; y = 0;
+    }
+    //  check diagonals
+    x = 0; y = 0;
+    let i = 0, j = 0;
+    while (i < 3) {
+        if (position[i][j] === 'X') {
+            x++;
+        } else if (position[i][j] === '0') {
+            y++;
+        }
+        i++; j++;
+    }
+    if (x === 3) return 'X';
+    if (y === 3) return '0';
+    i = 0; j = 2; x = 0; y = 0;
+    while (i < 3) {
+        if (position[i][j] === 'X') {
+            x++;
+        } else if (position[i][j] === '0') {
+            y++;
+        }
+        i++; j--;
+    }
+    if (x === 3) return 'X';
+    if (y === 3) return '0';
+    return;
 }
 
 
