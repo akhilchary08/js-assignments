@@ -227,7 +227,27 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+    let top='┌';
+    for(let i=1;i<width-1;i++){
+        top+='─';
+    }
+    top+='┐\n';
+    let mid='│';
+    for(let i=1;i<width-1;i++){
+        mid+=' ';
+    }
+    mid+='│\n';
+    let bottom='└';
+    for(let i=1;i<width-1;i++){
+        bottom+='─';
+    }
+    bottom+='┘\n';
+    let middle='';
+    for(let i=1;i<height-1;i++){
+        middle+=mid;
+    }
+    console.log(top+middle+bottom);
+    return top+middle+bottom;
 }
 
 
@@ -247,7 +267,27 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+    let alph1="NOPQRSTUVWXYZABCDEFGHIJKLM";
+    let alph2="nopqrstuvwxyzabcdefghijklm";
+    let i2=65,j2=97,i1=0,j1=0;
+    let mp1=new Map();
+    let mp2=new Map();
+    while(i1<26){
+      mp1.set(String.fromCharCode(i2),alph1[i1]);
+      mp2.set(String.fromCharCode(j2),alph2[j1]);
+      i1++;j1++;i2++;j2++;
+    }
+    let res='';
+    for(let it of str){
+        if(mp1.has(it)){
+            res+=mp1.get(it);
+        }else if(mp2.has(it)){
+            res+=mp2.get(it);
+        }else{
+            res+=it;
+        }
+    }
+    return res;
 }
 
 /**
