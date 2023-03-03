@@ -437,10 +437,9 @@ function isBracketsBalanced(str) {
 *
 */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
-    const diffInSeconds = Math.floor((endDate - startDate) / 1000);
-
-    if (diffInSeconds < 45) {
+    // throw new Error('Not implemented');
+    const diffInSeconds = Math.ceil((endDate - startDate) / 1000);
+    if (diffInSeconds <= 45) {
         return 'a few seconds ago';
     } else if (diffInSeconds <= 90) {
         return 'a minute ago';
