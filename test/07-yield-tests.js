@@ -217,9 +217,8 @@ describe('07-yield-tasks', function() {
                 line,
                 expected[lineNo++],
                 `Text mismatch at line no ${lineNo}: `
-            );
+            ); 
         }
-
         assert.equal(
             expected.length,
             lineNo,
