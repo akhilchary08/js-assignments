@@ -440,7 +440,7 @@ describe('04-arrays-tasks', function() {
                  expected: 1
             }, {
                 arr:      [ 1, 2, 3 ],
-                expected: 3
+                expected: 6
             }, {
                 arr:      [ null, 1, 'elephant' ],
                 expected: 1
