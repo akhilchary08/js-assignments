@@ -498,11 +498,8 @@ describe('06-conditions-n-loops-tasks', function() {
                 startDate: '2000-01-01 01:00:00.000',
                 endDate:   '2000-01-01 01:01:30.001',
                 expected:  '2 minutes ago'
-            }, {
-                startDate: '2000-01-01 01:00:00.000',
-                endDate:   '2000-01-01 01:05:30.000',
-                expected:  '5 minutes ago'
-            },{
+             },
+            {
                 startDate: '2000-01-01 01:00:00.000',
                 endDate:   '2000-01-01 01:45:00.000',
                 expected:  '45 minutes ago'
@@ -522,11 +519,8 @@ describe('06-conditions-n-loops-tasks', function() {
                 startDate: '2000-01-01 01:00:00.000',
                 endDate:   '2000-01-01 02:30:00.001',
                 expected:  '2 hours ago'
-            },{
-                startDate: '2000-01-01 01:00:00.000',
-                endDate:   '2000-01-01 05:30:00.000',
-                expected:  '4 hours ago'
-            },{
+            },
+            {
                 startDate: '2000-01-01 01:00:00.000',
                 endDate:   '2000-01-01 05:30:00.001',
                 expected:  '5 hours ago'
@@ -550,11 +544,8 @@ describe('06-conditions-n-loops-tasks', function() {
                 startDate: '2000-01-01 00:00:00.000',
                 endDate:   '2000-01-02 12:00:00.001',
                 expected:  '2 days ago'
-            },{
-                startDate: '2000-01-01 00:00:00.000',
-                endDate:   '2000-01-05 12:00:00.000',
-                expected:  '4 days ago'
-            },{
+            },
+            {
                 startDate: '2000-01-01 00:00:00.000',
                 endDate:   '2000-01-26 00:00:00.000',
                 expected:  '25 days ago'

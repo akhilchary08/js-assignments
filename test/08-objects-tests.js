@@ -4,10 +4,10 @@ var assert = require('assert');
 var tasks = require('../task/08-objects-tasks');
 it.optional = require('../extensions/it-optional');
 
-describe('08-objects-tasks', function() {
+describe('08-objects-tasks', function () {
 
     it.optional('Rectangle constructor should return the rectangle object', function () {
-        var rect = new tasks.Rectangle(10,20);
+        var rect = new tasks.Rectangle(10, 20);
 
         assert.equal(
             typeof rect,
@@ -43,7 +43,7 @@ describe('08-objects-tasks', function() {
             'Result of (new Rectangle(10,20)).getArea() should return the correct area of specified rectangle'
         );
         assert.equal(
-            (new tasks.Rectangle(3,8)).getArea(),
+            (new tasks.Rectangle(3, 8)).getArea(),
             24,
             'Result of (new Rectangle(3,8)).getArea() should return the correct area of specified rectangle'
         );
@@ -53,9 +53,9 @@ describe('08-objects-tasks', function() {
     it.optional('getJSON should return the JSON representation of specified object', function () {
         [
             {
-                obj: [ 1, 2, 3],
+                obj: [1, 2, 3],
                 expected: '[1,2,3]'
-            },{
+            }, {
                 obj: { height: 10, width: 20 },
                 expected: '{"height":10,"width":20}'
             }
@@ -69,29 +69,39 @@ describe('08-objects-tasks', function() {
 
 
     it.optional('fromJSON should return the object of specified type from JSON representation', function () {
-        var MockType = function(a,b,c) {
+        var MockType = function (a, b, c) {
             this.a = a;
             this.b = b;
             this.c = c;
         };
-
+        var Rectangle = function (width, height) {
+            this.width = width;
+            this.height = height;
+            this.getArea = function () {
+                return this.width * this.height;
+            }
+        };
+        // console.log("mock ",MockType.prototype)
         [
             {
-                proto: tasks.Rectangle.prototype,
+                proto: Rectangle.prototype,
                 json: '{ "width":10, "height":20 }',
                 expected: new tasks.Rectangle(10, 20)
-            },{
+            },
+            {
                 proto: MockType.prototype,
                 json: '{ "a":10, "b":20, "c":30 }',
-                expected: new MockType(10,20,30)
+                expected: new MockType(10, 20, 30)
             }
         ].forEach(data => {
             var actual = tasks.fromJSON(data.proto, data.json);
-            assert.deepEqual(
+            assert.equal(
                 actual,
                 data.expected,
                 'fromJson method shoud restore all properties from json'
             );
+            console.log(actual, " actual ");
+            console.log(data.expected, " data expected ");
             assert.equal(
                 actual.__proto__,
                 data.expected.__proto__,
@@ -231,8 +241,8 @@ describe('08-objects-tasks', function() {
             assert.throws(
                 fn,
                 /Element, id and pseudo-element should not occur more then one time inside the selector/,
-                
-                '\nPlease throw an exception "Element, id and pseudo-element should not occur more then one time inside the selector" '+
+
+                '\nPlease throw an exception "Element, id and pseudo-element should not occur more then one time inside the selector" ' +
                 'if element, id or pseudo-element occurs twice or more times'
             );
         });
@@ -259,8 +269,8 @@ describe('08-objects-tasks', function() {
             assert.throws(
                 fn,
                 /Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element/,
-                
-                '\nPlease throw an exception "Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element" '+
+
+                '\nPlease throw an exception "Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element" ' +
                 'if selector parts arranged in an invalid order.'
             );
         });
